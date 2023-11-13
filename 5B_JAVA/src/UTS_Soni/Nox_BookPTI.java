@@ -134,13 +134,13 @@ class Discount {
     private double persenDiskon;
     private double nilaiDiskon;
 
-    // Constructor 1: overloading constructor untuk mendukung diskon dengan persentase atau nilai tertentu
+    // Constructor 1: overloading constructor untuk mendukung diskon dengan persentase
     public Discount(double percentage) {
         this.persenDiskon = percentage;
-        this.nilaiDiskon = 0.0;
+        this.nilaiDiskon = 0.0; // Nilai diskon diatur ke 0 karena diskon berdasarkan persentase
     }
 
-    // Constructor 2
+    // Constructor 2: Diskon berdasarkan nilai tertentu
     public Discount(double persenJUGA, double nilaiJUGA) {
         this.persenDiskon = persenJUGA;
         this.nilaiDiskon = nilaiJUGA;
