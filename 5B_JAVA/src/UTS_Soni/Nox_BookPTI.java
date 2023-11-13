@@ -15,7 +15,7 @@ class Book_Nox {
     private int tahunTerbitBuku_Nox;
     private double hargaBuku_Nox;
 
-    // Constructor Ke 1
+    // Constructor Ke 1: isinya parameter lengkap
     public Book_Nox(String judul_Nox, String pengarang_Nox, int tahun_Nox, double harga_Nox) {
         this.JudulBuku_Nox = judul_Nox;
         this.pengarangBuku_Nox = pengarang_Nox;
@@ -23,17 +23,20 @@ class Book_Nox {
         this.hargaBuku_Nox = harga_Nox;
     }
 
-    // Constructor Ke 2
+    // Constructor Ke 2: isinya hanya parameter judul dan pengarang saja
     public Book_Nox(String judul2_Buku, String pengarang2_Buku) {
         this.JudulBuku_Nox = judul2_Buku;
         this.pengarangBuku_Nox = pengarang2_Buku;
-        this.tahunTerbitBuku_Nox = 0;
-        this.hargaBuku_Nox = 0.0;
+        this.tahunTerbitBuku_Nox = 0; // kita jadikan nilai default untuk tahun terbit = 0
+        this.hargaBuku_Nox = 0.0; // nilai default untuk harga buku = 0
     }
 
     // method getBookInfo untuk mendapatkan informasi tentang buku
     public String getBookInfo() {
-        return "Judul Buku: " + JudulBuku_Nox + "\nPengarang: " + pengarangBuku_Nox + "\nTahun Terbit: " + tahunTerbitBuku_Nox + "\nHarga: $" + hargaBuku_Nox;
+        return "\tJudul Buku: " + JudulBuku_Nox + 
+                "\n\tPengarang: " + pengarangBuku_Nox + 
+                "; Tahun Terbit: " + tahunTerbitBuku_Nox + 
+                "; Harga: Rp " + hargaBuku_Nox + "\n";
     }
 
     // method calculateDiscountedPrice untuk menghitung harga buku setelah diberikan diskon tertentu
@@ -45,18 +48,25 @@ class Book_Nox {
 
 class Customer {
     private String namaPelanggan;
+    private String alamatPelanggan;
     private List<Book_Nox> daftarPembelian; //import java.util.List;
 
-    // Constructor 1
-    public Customer(String nama2_Pel) {
+    // Constructor 1 = parameter lengkap
+    public Customer(String nama2_Pel, String address) {
         this.namaPelanggan = nama2_Pel;
+        this.alamatPelanggan = address;
         this.daftarPembelian = new ArrayList<>();
     }
 
     // Constructor 2
-    public Customer() {
-        this.namaPelanggan = "Guest";
+    public Customer(String nama3_Pel) {
+        this(nama3_Pel,"alamat kosong");
         this.daftarPembelian = new ArrayList<>();
+    }
+    
+    // Metode untuk mendapatkan informasi pelanggan
+    public String getCustomerInfo() {
+        return "\tNama: " + namaPelanggan + "\n\tAlamat rumah: " + alamatPelanggan;
     }
 
     // method placeOrder untuk menempatkan pesanan dengan jumlah buku yang diinginkan.
@@ -64,12 +74,13 @@ class Customer {
         for (int i = 0; i < quantity; i++) {
             daftarPembelian.add(book);
         }
-        System.out.println(quantity + " copies of '" + book.getBookInfo() + "' added to the order history for customer: " + namaPelanggan);
+        System.out.println(quantity + " pcs: " + book.getBookInfo() + 
+                "--> telah dimasukkan ke daftar belanja untuk pelanggan: " + namaPelanggan + "\n");
     }
 
     // method viewOrderHistory yang menampilkan riwayat pesanan pelanggan
     public void viewOrderHistory() {
-        System.out.println("Order History for Customer: " + namaPelanggan);
+        System.out.println("\nRiwayat pembelian oleh: " + namaPelanggan);
         for (Book_Nox book : daftarPembelian) {
             System.out.println(book.getBookInfo());
         }
@@ -91,7 +102,7 @@ class BookStore {
 
     // method displayAvailableBooks untuk menampilkan buku-buku yang tersedia di toko
     public void displayAvailableBooks() {
-        System.out.println("Available Books in the Bookstore:");
+        System.out.println("Daftar buku yang tersedia di toko ini:");
         for (Book_Nox book : bukuYangTersedia) {
             System.out.println(book.getBookInfo());
         }
@@ -115,7 +126,7 @@ class ShoppingCart {
     // method addToCart untuk menambahkan buku ke dalam keranjang
     public void addToCart(Book_Nox bukuNox) {
         keranjang_Nox.add(bukuNox);
-        System.out.println("'" + bukuNox.getBookInfo() + "' added to the shopping cart.");
+        System.out.println(bukuNox.getBookInfo() + "-->dimasukkan ke daftar belanjaan");
     }
 
     // method bayarNox untuk menyelesaikan pembelian dan menghitung totalBayar harga
@@ -124,7 +135,7 @@ class ShoppingCart {
         for (Book_Nox bukuJuga : keranjang_Nox) {
             totalBayar += bukuJuga.calculateDiscountedPrice(10); // Assume a 10% discount for all books
         }
-        System.out.println("Total price after discount: $" + totalBayar);
+        System.out.println("\nTotal price after discount: Rp" + totalBayar);
         return totalBayar;
     }
 }
@@ -150,36 +161,55 @@ class Discount {
 public class Nox_BookPTI {
 
     public static void main(String[] args) {
-        Book_Nox book1 = new Book_Nox("Java Programming", "John Doe", 2020, 39.99);
-        Book_Nox book2 = new Book_Nox("Data Structures", "Jane Smith", 2018, 29.99);
+        Book_Nox Komik_1 = new Book_Nox("One Piece", "Eichiro Oda", 1995, 30000);
+        Book_Nox Komik_2 = new Book_Nox("Naruto", "Masashi Kishimoto", 1996, 35000);
+        Book_Nox Komik_3 = new Book_Nox("Bleach", "Kubo Tite", 1997, 40000);
+        Book_Nox Komik_4 = new Book_Nox("Jujutsu Kaisen", "Gege Akutami", 1998, 45000);
+        Book_Nox Komik_5 = new Book_Nox("Kimetsu No Yaiba", "Koyoharu Gotouge", 1999, 50000);
+        Book_Nox Komik_6 = new Book_Nox("Black Clover", "Yuki Tabata", 2000, 55000);
+        Book_Nox Komik_7 = new Book_Nox("Fairy Tail", "Hiro Mashima", 2001, 60000);
+        Book_Nox Komik_8 = new Book_Nox("Witch Hunter", "Cho Jung-man", 2002, 65000);
+        Book_Nox Komik_9 = new Book_Nox("Battle Through Heavens", "Tiancan Tudou", 2003, 70000);
+        Book_Nox Komik_10 = new Book_Nox("Soul Land", "Tang Jia San Shao", 2004, 75000);
 
         // Create a bukuJuga store with available books
-        List<Book_Nox> availableBooks = new ArrayList<>();
-        availableBooks.add(book1);
-        availableBooks.add(book2);
-        BookStore bookStore = new BookStore(availableBooks);
+        List<Book_Nox> bukuTersedia = new ArrayList<>();
+        bukuTersedia.add(Komik_1);
+        bukuTersedia.add(Komik_2);
+        bukuTersedia.add(Komik_3);
+        bukuTersedia.add(Komik_4);
+        bukuTersedia.add(Komik_5);
+        bukuTersedia.add(Komik_6);
+        bukuTersedia.add(Komik_7);
+        bukuTersedia.add(Komik_8);
+        bukuTersedia.add(Komik_9);
+        bukuTersedia.add(Komik_10);
+        BookStore tokoBuku = new BookStore(bukuTersedia);
 
         // Display available books in the store
-        bookStore.displayAvailableBooks();
+        tokoBuku.displayAvailableBooks();
 
-        // Create a customer
-        Customer customer = new Customer("Alice");
+        // Create a pelanggan
+        Customer pelanggan = new Customer("Alice","Jln. Raya Besar Sekali");
+        
+        // Menampilkan informasi pelanggan
+        System.out.println("Info Pelanggan 1:\n" + pelanggan.getCustomerInfo() + "\n");
 
         // Place orders for books
-        customer.placeOrder(book1, 2);
-        customer.placeOrder(book2, 1);
+        pelanggan.placeOrder(Komik_1, 2);
+        pelanggan.placeOrder(Komik_2, 1);
 
         // View order history
-        customer.viewOrderHistory();
+        pelanggan.viewOrderHistory();
 
         // Create a shopping keranjang_Nox
-        ShoppingCart shoppingCart = new ShoppingCart();
+        ShoppingCart keranjangKuning = new ShoppingCart();
 
         // Add books to the shopping keranjang_Nox
-        shoppingCart.addToCart(book1);
-        shoppingCart.addToCart(book2);
+        keranjangKuning.addToCart(Komik_1);
+        keranjangKuning.addToCart(Komik_2);
 
         // Checkout and calculate the totalBayar hargaBuku_Nox
-        shoppingCart.bayarNox();
+        keranjangKuning.bayarNox();
     }
 }
